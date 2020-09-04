@@ -1,0 +1,22 @@
+.header
+  display: flex
+  justify-content: flex-end
+  align-items: center
+  .header__notifications, .header__line, .header__avatar, .header__text
+    margin-right: 20px
+    color: white
+    @media screen and (max-width: 840px)
+      margin-right: 10px
+  .header__notifications
+    @media screen and (max-width: 840px)
+      width: 16px
+  .header__line, .header__avatar
+    @media screen and (max-width: 840px)
+      height: 24px
+  .header__avatar
+    border-radius: 50%
+    @media screen and (max-width: 840px)
+      margin-right: 0
+  .header__text
+    @media screen and (max-width: 840px)
+      display: none

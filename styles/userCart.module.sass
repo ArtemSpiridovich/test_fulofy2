@@ -1,0 +1,43 @@
+.cart
+  height: 128px
+  background: linear-gradient(270deg, #1A78C2 0%, #1A78C2 101.06%)
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15)
+  border-radius: 10px
+  @media screen and (max-width: 840px)
+    height: 71px
+  .cart__container
+    display: flex
+    justify-content: space-between
+    align-items: center
+    height: 100%
+    >div
+      display: flex
+      align-items: center
+      .container__avatar
+        border-radius: 50%
+        width: 80px
+        margin-right: 42px
+        @media screen and (max-width: 840px)
+          width: 40px
+          margin-right: 10px
+      .container__text
+        font-weight: 600
+        font-size: 30px
+        line-height: 41px
+        font-family: Open Sans, sans-serif
+        @media screen and (max-width: 840px)
+          font-size: 14px
+          line-height: 19px
+      .container__button
+        padding: 0
+        font-family: Open Sans, sans-serif
+        font-weight: 600
+        font-size: 14px
+        line-height: 19px
+        .button__text
+          @media screen and (max-width: 840px)
+            display: none
+      .container__img
+        margin-left: 5px
+        @media screen and (max-width: 840px)
+          margin-left: 0
