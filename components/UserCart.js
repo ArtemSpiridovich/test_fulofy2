@@ -4,6 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import Link from "next/link";
 
 const useStyles = makeStyles({
   root: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-export function UserCard({toggle, setToggle}) {
+export function UserCard({name = 'Иванова Анна Михайловна', href, text, src}) {
   const classes = useStyles()
   return (
     <AppBar className={s.cart} position="static">
@@ -33,24 +34,20 @@ export function UserCard({toggle, setToggle}) {
         <div>
           <img className={s.container__avatar} src={'./avatar.svg'}/>
           <Typography variant="h6" className={s.container__text}>
-            Иванова Анна Михайловна
+            {name}
           </Typography>
         </div>
         <div>
-          <Button onClick={() => setToggle(!toggle)} classes={{
+          <Button classes={{
             label: classes.label,
             root: classes.root
           }} className={s.container__button} disableRipple={true} color="inherit">
-            {
-              toggle ? <>
-                  <span className={s.button__text}>Редактировать</span>
-                  <img className={s.container__img} src={'./edit.svg'}/>
-                </>
-                : <>
-                  <span className={s.button__text}>Закрыть</span>
-                  <img className={s.container__img} src={'./close.svg'}/>
-                </>
-            }
+            <Link href={href}>
+              <a>
+                <span className={s.button__text}>{text}</span>
+                <img className={s.container__img} src={src}/>
+              </a>
+            </Link>
           </Button>
         </div>
       </Toolbar>

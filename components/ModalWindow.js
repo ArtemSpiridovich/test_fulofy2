@@ -53,20 +53,24 @@ const useStyles = makeStyles({
   label: {},
 });
 
-export function ModalWindow({setModalIsOpen, setToggle}) {
+export function ModalWindow({setModalIsOpen, setToggle, values}) {
   const classes = useStyles()
   const [save, setSave] = useState(false)
   const [text, setText] = useState('')
   
   const SaveData = () => {
+    localStorage.setItem('_values', JSON.stringify(values))
     setText('Данные успешно сохранены')
     setSave(true)
-    setToggle(true)
   }
   
   const onTouch = () => {
-    setSave(false)
-    setModalIsOpen(false)
+    let width = window.screen.width
+    if (width < 768) {
+      setSave(false)
+      setModalIsOpen(false)
+      setToggle(true)
+    }
   }
   
   return (
@@ -91,11 +95,12 @@ export function ModalWindow({setModalIsOpen, setToggle}) {
           </>
         ) : (
           <>
-            <span className={`${s.modal__text} ${s.second}`}>{text}</span>
+            <div className={s.closeDiv} onClick={() => onTouch()}> </div>
+            <span onClick={() => onTouch()} className={`${s.modal__text} ${s.second}`}>{text}</span>
             <Button classes={{
               label: classes.label,
               root: classes.good
-            }} onClick={() => setModalIsOpen(false)} onTouchStart={() => onTouch()} variant="contained" color="primary" disableRipple={true}>
+            }} onClick={() => setModalIsOpen(false)} variant="contained" color="primary" disableRipple={true}>
               Хорошо
             </Button>
           </>

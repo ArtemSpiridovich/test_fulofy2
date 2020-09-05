@@ -3,23 +3,26 @@ import {Header} from "../components/Header";
 import {Title} from "../components/Title";
 import {UserCard} from "../components/UserCart";
 import {UserInformation} from "../components/UserInformation";
-import {useState} from "react";
-import {ModalWindow} from "../components/ModalWindow";
+import {useEffect, useState} from "react";
 
 export default function Home() {
   
-  const [toggle, setToggle] = useState(true)
-  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [values, setValues] = useState({})
+  
+  useEffect(() => {
+    const data = localStorage.getItem('_values')
+    debugger
+    if (data) {
+      return  setValues(JSON.parse(data))
+    }
+  }, [])
   
   return (
     <div className={s.app}>
-      <Header />
+      <Header name={values.name}/>
       <Title />
-      <UserCard setToggle={setToggle} toggle={toggle}/>
-      <UserInformation toggle={toggle} setModalIsOpen={setModalIsOpen}/>
-      {
-        modalIsOpen ? <><ModalWindow setToggle={setToggle} setModalIsOpen={setModalIsOpen}/><div className={s.fon}></div></> : <></>
-      }
+      <UserCard name={values.name} href={'/edit'} text={'Редактировать'} src={'./edit.svg'}/>
+      <UserInformation email={values.email} phone={values.phone}/>
     </div>
   )
 }
