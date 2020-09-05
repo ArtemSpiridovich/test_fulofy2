@@ -39,8 +39,8 @@ export function UserCard({name = 'Иванова Анна Михайловна',
         </div>
         <div>
           <Button classes={{
-            label: classes.label,
-            root: classes.root
+            root: classes.root,
+            label: classes.label
           }} className={s.container__button} disableRipple={true} color="inherit">
             <Link href={href}>
               <a>

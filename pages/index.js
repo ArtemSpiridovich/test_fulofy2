@@ -11,7 +11,6 @@ export default function Home() {
   
   useEffect(() => {
     const data = localStorage.getItem('_values')
-    debugger
     if (data) {
       return  setValues(JSON.parse(data))
     }

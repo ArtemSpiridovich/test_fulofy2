@@ -6,9 +6,9 @@ export function Header({name = 'Иванова А.'}) {
   let headerName = name.slice(0, num+2)
   return (
     <div className={s.header}>
-      <img className={s.header__notifications} src={'./notifications.svg'}/>
-      <img className={s.header__line} src={'./line.svg'}/>
-      <img className={s.header__avatar} src={'./avatar.svg'}/>
+      <img className={s.header__notifications} src={'./notifications.svg'} alt={''}/>
+      <img className={s.header__line} src={'./line.svg'} alt={''}/>
+      <img className={s.header__avatar} src={'./avatar.svg'} alt={''}/>
       <span className={s.header__text}>{headerName + '.'}</span>
     </div>
 )

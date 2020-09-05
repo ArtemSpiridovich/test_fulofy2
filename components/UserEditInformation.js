@@ -89,7 +89,7 @@ export function UserEditInformation({setNewValues, setModalIsOpen}) {
       email: '',
       phone: ''
     },
-    onSubmit: values => {
+    onSubmit: (values, a) => {
       axios.post("/api/posts", values)
         .then(res => {
           setModalIsOpen(true)
@@ -98,6 +98,7 @@ export function UserEditInformation({setNewValues, setModalIsOpen}) {
             email: res.data.email,
             phone: res.data.phone
           })
+          a.resetForm()
           return console.log(res.data)
         })
         .catch(res => {

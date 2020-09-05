@@ -39,7 +39,7 @@ const useStyles = makeStyles({
       display: 'none'
     }
   },
-  unsave: {
+  unSave: {
     padding: '16px 53px',
     borderRadius: '36px',
     color: '#01BDA7',
@@ -53,7 +53,7 @@ const useStyles = makeStyles({
   label: {},
 });
 
-export function ModalWindow({setModalIsOpen, setToggle, values}) {
+export function ModalWindow({setModalIsOpen, values}) {
   const classes = useStyles()
   const [save, setSave] = useState(false)
   const [text, setText] = useState('')
@@ -69,9 +69,10 @@ export function ModalWindow({setModalIsOpen, setToggle, values}) {
     if (width < 768) {
       setSave(false)
       setModalIsOpen(false)
-      setToggle(true)
     }
   }
+  
+  const unSave = () => setModalIsOpen(false)
   
   return (
     <div className={`${s.modal} ${save ? s.success : ''}`}>
@@ -82,25 +83,25 @@ export function ModalWindow({setModalIsOpen, setToggle, values}) {
             <Button classes={{
               label: classes.label,
               root: classes.save
-            }} onClick={() => SaveData()} variant="contained" color="primary" disableRipple={true}>
+            }} onClick={SaveData} variant="contained" color="primary" disableRipple={true}>
               Сохранить
             </Button>
             <Button onClick={() => setModalIsOpen(false)} classes={{
               label: classes.label,
-              root: classes.unsave
+              root: classes.unSave
             }} variant="outlined" color="primary" disableRipple={true}>
               Не сохранять
             </Button>
-            <img onClick={() => setModalIsOpen(false)} className={s.modal__close} src={'./close-modal.svg'}/>
+            <img onClick={unSave} className={s.modal__close} src={'./close-modal.svg'}/>
           </>
         ) : (
           <>
-            <div className={s.closeDiv} onClick={() => onTouch()}> </div>
-            <span onClick={() => onTouch()} className={`${s.modal__text} ${s.second}`}>{text}</span>
+            <div className={s.closeDiv} onClick={onTouch}> </div>
+            <span onClick={onTouch} className={`${s.modal__text} ${s.second}`}>{text}</span>
             <Button classes={{
               label: classes.label,
               root: classes.good
-            }} onClick={() => setModalIsOpen(false)} variant="contained" color="primary" disableRipple={true}>
+            }} onClick={unSave} variant="contained" color="primary" disableRipple={true}>
               Хорошо
             </Button>
           </>
