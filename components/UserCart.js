@@ -1,33 +1,11 @@
 import s from '../styles/userCart.module.sass'
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import Link from "next/link";
+import {IconButton} from "@material-ui/core";
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: '24px',
-    width: 'max-content',
-    '@media screen and (max-width: 840px)': {
-      maxWidth: '24px',
-      width: '24px',
-      overFlow: 'hidden'
-    }
-  },
-  label: {
-    maxWidth: 'max-content',
-    width: 'max-content',
-    '@media screen and (max-width: 840px)': {
-      maxWidth: '24px',
-      width: '24px'
-    }
-  },
-});
-
-export function UserCard({name = 'Иванова Анна Михайловна', href, text, src}) {
-  const classes = useStyles()
+export function UserCard({name = 'Иванова Анна Михайловна', href, text, children}) {
   return (
     <AppBar className={s.cart} position="static">
       <Toolbar className={s.cart__container}>
@@ -38,17 +16,14 @@ export function UserCard({name = 'Иванова Анна Михайловна',
           </Typography>
         </div>
         <div>
-          <Button classes={{
-            root: classes.root,
-            label: classes.label
-          }} className={s.container__button} disableRipple={true} color="inherit">
+          <IconButton className={s.container__button} color="primary" aria-label="upload picture" component="span">
             <Link href={href}>
               <a>
                 <span className={s.button__text}>{text}</span>
-                <img className={s.container__img} src={src}/>
+                {children}
               </a>
             </Link>
-          </Button>
+          </IconButton>
         </div>
       </Toolbar>
     </AppBar>

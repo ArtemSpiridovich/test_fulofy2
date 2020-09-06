@@ -2,6 +2,7 @@ import s from '../styles/modalWindow.module.sass'
 import {useState} from "react";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import {repository} from "./localStorage";
 
 const useStyles = makeStyles({
   save: {
@@ -59,7 +60,7 @@ export function ModalWindow({setModalIsOpen, values}) {
   const [text, setText] = useState('')
   
   const SaveData = () => {
-    localStorage.setItem('_values', JSON.stringify(values))
+    repository.setUserData(values)
     setText('Данные успешно сохранены')
     setSave(true)
   }

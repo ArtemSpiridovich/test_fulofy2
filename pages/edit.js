@@ -5,6 +5,10 @@ import {useEffect, useState} from "react";
 import {ModalWindow} from "../components/ModalWindow";
 import {UserEditInformation} from "../components/UserEditInformation";
 import {UserCard} from "../components/UserCart";
+import {repository} from "../components/localStorage";
+import Head from "next/head";
+//icons
+import Close from '@material-ui/icons/Close';
 
 export default function Home() {
   
@@ -12,18 +16,21 @@ export default function Home() {
   const [values, setValues] = useState({})
   
   useEffect(() => {
-    const data = localStorage.getItem('_values')
-    if (data) {
-      return  setValues(JSON.parse(data))
-    }
+    const data = repository.getUserData()
+    if(data) return setValues(data)
   }, [])
   
   return (
     <div className={s.app}>
+      <Head>
+        <title>Edit | Test Fulogy</title>
+      </Head>
       <Header name={values.name}/>
       <Title />
-      <UserCard name={values.name} href={'/'} text={'Закрыть'} src={'./close.svg'}/>
-      <UserEditInformation setModalIsOpen={setModalIsOpen} setNewValues={setValues}/>
+      <UserCard name={values.name} href={'/'} text={'Закрыть'}>
+        <Close/>
+      </UserCard>
+      <UserEditInformation setModalIsOpen={setModalIsOpen} setValues={setValues}/>
       {
         modalIsOpen ? <>
           <ModalWindow values={values} setModalIsOpen={setModalIsOpen}/>

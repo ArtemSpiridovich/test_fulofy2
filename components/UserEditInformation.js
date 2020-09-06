@@ -4,6 +4,12 @@ import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useFormik} from "formik";
 import * as axios from "axios";
+import {ValidateName, ValidateEmail, ValidatePhone} from "./validate";
+import {useEffect} from "react";
+
+const instance = axios.create({
+  baseURL: `/api/posts`,
+})
 
 const Input = ({img, error, className, classNameInput, label, value, message, placeholder, formik}) => {
   return (
@@ -45,44 +51,17 @@ const useStyles = makeStyles({
   label: {},
 });
 
-export function UserEditInformation({setNewValues, setModalIsOpen}) {
+export function UserEditInformation({setValues, setModalIsOpen}) {
   const classes = useStyles()
+  
   const formik = useFormik({
     validate: (values) => {
-      const name = /^[А-Яа-яЁё]{4,}\s[А-Яа-яЁё]{4,}/g
-      const email = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g
-      const phone = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g
-      if (!name.test(values.name)) {
-        if (values.name === '') {
-          return {
-            name: 'Введите фамилию и имя'
-          }
-        } else {
-          return {
-            name: 'Вы неверно указали фамилию и имя'
-          }
-        }
-      } else if (!email.test(values.email)) {
-        if (values.email === '') {
-          return {
-            email: 'Введите ваш email'
-          }
-        } else {
-          return {
-            email: 'Вы неверно указали email'
-          }
-        }
-      } else if (!phone.test(values.phone)) {
-        if (values.phone === '') {
-          return {
-            phone: 'Введите номер телефона'
-          }
-        } else {
-          return {
-            phone: 'Вы неверно указали номер телефона'
-          }
-        }
-      }
+      if (!ValidateName(values.name)) return {name: 'Вы неверно указали фамилию и имя'}
+      if (values.name === '') return {name: 'Введите фамилию и имя'}
+      if (!ValidateEmail(values.email)) return {name: 'Вы неверно указали email'}
+      if (values.email === '') return {name: 'Введите ваш email'}
+      if (!ValidatePhone(values.phone)) return {name: 'Вы неверно указали номер телефона'}
+      if (values.phone === '') return {name: 'Введите номер телефона'}
     },
     initialValues: {
       name: '',
@@ -90,14 +69,14 @@ export function UserEditInformation({setNewValues, setModalIsOpen}) {
       phone: ''
     },
     onSubmit: (values, a) => {
-      axios.post("/api/posts", values)
+      instance.post('',values)
         .then(res => {
-          setModalIsOpen(true)
-          setNewValues({
+          setValues({
             name: res.data.name,
             email: res.data.email,
             phone: res.data.phone
           })
+          setModalIsOpen(true)
           a.resetForm()
           return console.log(res.data)
         })
@@ -107,41 +86,57 @@ export function UserEditInformation({setNewValues, setModalIsOpen}) {
     },
   })
   
+  const renderInput = (img, name, label, placeholder) => {
+    return <Input
+      img={img}
+      className={s.container__icon}
+      classNameInput={s.container__input}
+      error={formik.errors[name]}
+      label={label}
+      placeholder={placeholder}
+      message={formik.errors[name]}
+      formik={formik.getFieldProps(`${name}`)}
+    />
+  }
+  
   return (
     <div className={s.userInformation}>
       <div className={s.inputs}>
         <form onSubmit={formik.handleSubmit}>
           <div className={s.container}>
-            <Input
-              img={'./contacts.svg'}
-              className={s.container__icon}
-              classNameInput={s.container__input}
-              error={formik.errors.name}
-              label={'Фамилия и имя'}
-              placeholder={'Укажите ваши фамилию и имя'}
-              message={formik.errors.name}
-              formik={formik.getFieldProps("name")}
-            />
-            <Input
-              img={'./mail.svg'}
-              className={s.container__icon}
-              classNameInput={s.container__input}
-              error={formik.errors.email}
-              label={'E-mail'}
-              placeholder={'Укажите ваш email'}
-              message={formik.errors.email}
-              formik={formik.getFieldProps("email")}
-            />
-            <Input
-              img={'./phone.svg'}
-              className={s.container__icon}
-              classNameInput={s.container__input}
-              error={formik.errors.phone}
-              label={'Номер телефона'}
-              placeholder={'Укажите номер телефона'}
-              message={formik.errors.phone}
-              formik={formik.getFieldProps("phone")}
-            />
+            {renderInput('./contacts.svg', 'name', 'Фамилия и имя', 'Укажите ваши фамилию и имя')}
+            {renderInput('./mail.svg', 'email', 'E-mail', 'Укажите ваш email')}
+            {renderInput('./phone.svg', 'phone', 'Номер телефона', 'Укажите номер телефона')}
+            {/*<Input*/}
+            {/*  img={'./contacts.svg'}*/}
+            {/*  className={s.container__icon}*/}
+            {/*  classNameInput={s.container__input}*/}
+            {/*  error={formik.errors.name}*/}
+            {/*  label={'Фамилия и имя'}*/}
+            {/*  placeholder={'Укажите ваши фамилию и имя'}*/}
+            {/*  message={formik.errors.name}*/}
+            {/*  formik={formik.getFieldProps("name")}*/}
+            {/*/>*/}
+            {/*<Input*/}
+            {/*  img={'./mail.svg'}*/}
+            {/*  className={s.container__icon}*/}
+            {/*  classNameInput={s.container__input}*/}
+            {/*  error={formik.errors.email}*/}
+            {/*  label={'E-mail'}*/}
+            {/*  placeholder={'Укажите ваш email'}*/}
+            {/*  message={formik.errors.email}*/}
+            {/*  formik={formik.getFieldProps("email")}*/}
+            {/*/>*/}
+            {/*<Input*/}
+            {/*  img={'./phone.svg'}*/}
+            {/*  className={s.container__icon}*/}
+            {/*  classNameInput={s.container__input}*/}
+            {/*  error={formik.errors.phone}*/}
+            {/*  label={'Номер телефона'}*/}
+            {/*  placeholder={'Укажите номер телефона'}*/}
+            {/*  message={formik.errors.phone}*/}
+            {/*  formik={formik.getFieldProps("phone")}*/}
+            {/*/>*/}
           </div>
           <Button disabled={formik.errors.phone || formik.errors.email || formik.errors.name} type={'submit'} classes={{
             label: classes.label,
