@@ -17,7 +17,7 @@ export default function Home() {
   
   useEffect(() => {
     const data = repository.getUserData()
-    if(data) return setValues(data)
+    if (data) return setValues(data)
   }, [])
   
   return (
@@ -26,17 +26,19 @@ export default function Home() {
         <title>Edit | Test Fulogy</title>
       </Head>
       <Header name={values.name}/>
-      <Title />
+      <Title/>
       <UserCard name={values.name} href={'/'} text={'Закрыть'}>
         <Close/>
       </UserCard>
       <UserEditInformation setModalIsOpen={setModalIsOpen} setValues={setValues}/>
       {
-        modalIsOpen ? <>
-          <ModalWindow values={values} setModalIsOpen={setModalIsOpen}/>
-          <div className={s.fon}> </div>
-        </> : <>
-        </>
+        modalIsOpen
+          ? <>
+            <ModalWindow values={values} setModalIsOpen={setModalIsOpen}/>
+            <div className={s.fon}> </div>
+          </>
+          : <>
+          </>
       }
     </div>
   )

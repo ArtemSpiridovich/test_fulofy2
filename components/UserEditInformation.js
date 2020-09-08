@@ -56,10 +56,10 @@ export function UserEditInformation({setValues, setModalIsOpen}) {
     validate: (values) => {
       if (!ValidateName(values.name)) return {name: 'Вы неверно указали фамилию и имя'}
       if (values.name === '') return {name: 'Введите фамилию и имя'}
-      if (!ValidateEmail(values.email)) return {name: 'Вы неверно указали email'}
-      if (values.email === '') return {name: 'Введите ваш email'}
-      if (!ValidatePhone(values.phone)) return {name: 'Вы неверно указали номер телефона'}
-      if (values.phone === '') return {name: 'Введите номер телефона'}
+      if (!ValidateEmail(values.email)) return {email: 'Вы неверно указали email'}
+      if (values.email === '') return {email: 'Введите ваш email'}
+      if (!ValidatePhone(values.phone)) return {phone: 'Вы неверно указали номер телефона'}
+      if (values.phone === '') return {phone: 'Введите номер телефона'}
     },
     initialValues: {
       name: '',
@@ -107,7 +107,6 @@ export function UserEditInformation({setValues, setModalIsOpen}) {
             {renderInput('./phone.svg', 'phone', 'Номер телефона', 'Укажите номер телефона')}
           </div>
           <Button disabled={formik.errors.phone || formik.errors.email || formik.errors.name} type={'submit'} classes={{
-            label: classes.label,
             root: classes.root
           }} variant="contained" color="primary" disableRipple={true}>
             Сохранить изменения
